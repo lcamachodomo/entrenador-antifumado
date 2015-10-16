@@ -200,8 +200,6 @@ public class NotificationService extends Service {
                 AlarmManager alarmManager2 = (AlarmManager)getSystemService(ALARM_SERVICE);
 
 
-
-
                 Intent myIntent = new Intent(this, AdviceNotificationService.class);
                 myIntent.putExtra("ticket", list.get(i1).getType().toUpperCase());
                 myIntent.putExtra("title", list.get(i1).getType());

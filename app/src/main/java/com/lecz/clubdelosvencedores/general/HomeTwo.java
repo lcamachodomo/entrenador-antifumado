@@ -213,7 +213,7 @@
                 call_service();
             }
             add_cigarette.setOnClickListener(new View.OnClickListener() {
-
+                boolean flag = true;
                 @Override
                 public void onClick(View v) {
                     settings = PreferenceManager.getDefaultSharedPreferences(rootView.getContext());
@@ -221,7 +221,7 @@
 
                     String msj ="";
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    Log.i("aasa", user.getDays_with_smoking()+"");
+                    Log.i("Cigarrillo conteo", user.getDays_with_smoking()+"");
                     if(notCompleted  == 0){
                         if (user.getDays_with_smoking() == 0) {
                             if(ret == 0 ){
@@ -236,12 +236,12 @@
                             }else{
                                 if (user.getDays_with_smoking() == 2) {
                                     if(ret == 0 ){
-                                        msj = "Ya tuviste un desliz esta semana. Tratá de evitar fumar a toda costa. Ni un solo cigarrillo más.";
+                                        msj = "Ya has tenido dos deslices esta semana. Estás cerca de sufrir una recaída. Ni un solo cigarrillo más.";
                                     }
                                 }else{
                                     if (user.getDays_with_smoking() == 3 || user.getDays_with_smoking() == 4 ) {
                                         if(ret == 0 ){
-                                            msj = "Ya has tenido dos deslices esta semana. Estás cerca de sufrir una recaída. Reflexioná sobre lo que ha salido mal y mantente firme.";
+                                            msj = "Ya has tenido varios deslices esta semana. Estás cerca de sufrir una recaída. Reflexioná sobre lo que ha salido mal y mantente firme.";
                                         }
                                     }else{
                                         if (user.getDays_with_smoking() >= 5) {
@@ -255,17 +255,21 @@
                         }
 
 
-                        if(ret == 1 || ret == 2 ){
+                        if(ret == 1){
                             msj += " Ya tuviste un desliz hoy. Tratá de evitar fumar a toda costa. Ni un solo cigarrillo más.";
                         }else{
-                            if(ret == 3){
-                                msj += " Ya tuviste varios deslices el día de hoy. Hacé lo posible por fumar más. ¿Qué te parece si mejor cambiás de ambiente o te despejás un rato haciendo algo diferente?";
+                            if(ret == 2){
+                                msj += " Ya tuviste dos deslices hoy. Tratá de evitar fumar a toda costa. Ni un solo cigarrillo más.";
                             }else{
-                                if(ret == 4){
-                                    msj += " Ya has fumado cuatro cigarrillos el día de hoy. Estás cerca de sufrir una recaída. Reflexioná sobre lo que ha salido mal y mantente firme.";
+                                if(ret == 3){
+                                    msj += " Ya tuviste varios deslices el día de hoy. Hacé lo posible por no fumar más. ¿Qué te parece si mejor cambiás de ambiente o te despejás un rato haciendo algo diferente?";
                                 }else{
-                                    if(ret > 4){
-                                        msj += " Ya has fumado 5 o más cigarrillos el día de hoy. Estás cerca de sufrir una recaída. Reflexioná sobre lo que ha salido mal y mantente firme.";
+                                    if(ret == 4){
+                                        msj += " Ya has fumado cuatro cigarrillos el día de hoy. Estás cerca de sufrir una recaída. Reflexioná sobre lo que ha salido mal y mantente firme.";
+                                    }else{
+                                        if(ret > 4){
+                                            msj += " Ya has fumado 5 o más cigarrillos el día de hoy. Estás cerca de sufrir una recaída. Reflexioná sobre lo que ha salido mal y mantente firme.";
+                                        }
                                     }
                                 }
                             }
@@ -315,7 +319,7 @@
                                     SharedPreferences.Editor editor = settings.edit();
                                     editor.putInt("count", ret + 1);
                                     editor.commit();
-                                    if (notCompleted == 0 && size == 0) {
+                                    if (notCompleted == 0) {
                                         String msj = "";
                                         AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
                                         if (user.getDays_with_smoking() == 0) {
@@ -339,31 +343,31 @@
                                                 });
                                             } else {
                                                 if (user.getDays_with_smoking() == 2) {
-                                                    msj = "Ya has tenido dos deslices esta semana. Estás cerca de sufrir una recaída. Reflexioná sobre lo que ha salido mal y mantente firme.";
-
-
+                                                    if ((ret + 1) == 1) {
+                                                        msj = "Ya has tenido dos deslices esta semana. Estás cerca de sufrir una recaída. Reflexioná sobre lo que ha salido mal y mantente firme.";
+                                                    }
 
                                                     builder.setNegativeButton("Aceptar", new DialogInterface.OnClickListener() {
                                                         public void onClick(DialogInterface dialog, int id) {
                                                             // User cancelled the dialog
                                                         }
                                                     });
-                                                }else{
-                                                    if (user.getDays_with_smoking() == 3 || user.getDays_with_smoking() == 4    ) {
-                                                        msj = "Es muy probable que estés experimentando una recaída. Pero no te deprimas, podés intentarlo de nuevo o si crées que necesitás ayuda, podés contactar al IAFA al 800-4232-80.";
-
-
+                                                } else {
+                                                    if (user.getDays_with_smoking() == 3 || user.getDays_with_smoking() == 4) {
+                                                        if ((ret + 1) == 1) {
+                                                            msj = "Es muy probable que estés cerca de experimentar una recaída. Pero no te des por vencido, vos podés salir adelante y si crées que necesitás ayuda, podés contactar al IAFA al 800-4232-800.";
+                                                        }
 
                                                         builder.setNegativeButton("Aceptar", new DialogInterface.OnClickListener() {
                                                             public void onClick(DialogInterface dialog, int id) {
                                                                 // User cancelled the dialog
                                                             }
                                                         });
-                                                    }else{
+                                                    } else {
                                                         if (user.getDays_with_smoking() >= 5) {
                                                             msj = "Una recaída no equivale a un fracaso. Seguí intentándolo una y otra vez hasta que logrés vencer. Reiniciá tu plan en la sección de ajustes y empezá de nuevo.";
 
-
+                                                            flag = false;
                                                             userds.open();
                                                             User userR = userds.getUser();
                                                             userR.setLast_cigarette(s.getTimeInMillis());
@@ -390,34 +394,38 @@
                                             }
                                         }
                                         ret++;
+                                        if (flag) {
                                         if (ret == 2 || ret == 3) {
                                             msj += " Sé precavido, no te arriesgués a sufrir una recaída. Tené cuidado. ¡Vos podés!";
                                         } else {
                                             if (ret == 4) {
-                                                msj += " Estás muy cerca de sufrir una recaída.  Evitá fumar ni un solo cigarrillo más. No perdás todo lo que has avanzado al día de hoy.";
+                                                    msj += " Estás muy cerca de sufrir una recaída.  Evitá fumar ni un solo cigarrillo más. No perdás todo lo que has avanzado al día de hoy.";
+
                                             } else {
                                                 if (ret > 4) {
-                                                    msj += "Una recaída no equivale a un fracaso. Seguí intentándolo una y otra vez hasta que logrés vencer. Reiniciá tu plan en la sección de ajustes y empezá de nuevo.";
 
-                                                    userds.open();
-                                                    User userR = userds.getUser();
-                                                    userR.setLast_cigarette(s.getTimeInMillis());
-                                                    userds.updateUser(userR);
-                                                    userds.close();
+                                                        msj += " Una recaída no equivale a un fracaso. Seguí intentándolo una y otra vez hasta que logrés vencer. Reiniciá tu plan en la sección de ajustes y empezá de nuevo.";
+
+                                                        userds.open();
+                                                        User userR = userds.getUser();
+                                                        userR.setLast_cigarette(s.getTimeInMillis());
+                                                        userds.updateUser(userR);
+                                                        userds.close();
 
 
-                                                    builder.setPositiveButton("Cambiar plan (Reiniciar)", new DialogInterface.OnClickListener() {
-                                                        public void onClick(DialogInterface dialog, int id) {
-                                                            Intent intents = new Intent(rootView.getContext(), UpdatePlanActivity.class);
-                                                            startActivity(intents);
-                                                        }
-                                                    });
+                                                        builder.setPositiveButton("Cambiar plan (Reiniciar)", new DialogInterface.OnClickListener() {
+                                                            public void onClick(DialogInterface dialog, int id) {
+                                                                Intent intents = new Intent(rootView.getContext(), UpdatePlanActivity.class);
+                                                                startActivity(intents);
+                                                            }
+                                                        });
 
-                                                    builder.setNegativeButton("Seguir con este plan", new DialogInterface.OnClickListener() {
-                                                        public void onClick(DialogInterface dialog, int id) {
-                                                            // User cancelled the dialog
-                                                        }
-                                                    });
+                                                        builder.setNegativeButton("Seguir con este plan", new DialogInterface.OnClickListener() {
+                                                            public void onClick(DialogInterface dialog, int id) {
+                                                                // User cancelled the dialog
+                                                            }
+                                                        });
+                                                    }
                                                 }
                                             }
                                         }
@@ -431,13 +439,11 @@
 
                                     }
                                 }
-                            })
-
-                            .setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
-                                }
-                            });
+                            }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
 
                     AlertDialog dialog = builder.create();
                     dialog.show();
