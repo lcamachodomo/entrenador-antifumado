@@ -1,0 +1,33 @@
+<RelativeLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:customAttrs="http://schemas.android.com/apk/res-auto">
+
+    <com.lecz.clubdelosvencedores.CustomTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Si crees necesitar la ayuda y el consejo de profesionales, el IAFA  te ofrece varios Centros de Atención Integral alrededor del país. Buscá el más próximo a tu casa o trabajo y contáctanos para proporcionarte más información al respecto."
+
+        android:textSize="15dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        customAttrs:customFont="futura_heavy"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+
+        android:id="@+id/textView21"
+        android:textColor="#725B57"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <WebView
+        android:layout_width="match_parent"
+        android:id="@+id/goolge_map"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/textView21">
+
+    </WebView>
+
+</RelativeLayout>

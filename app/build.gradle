@@ -1,0 +1,33 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion '21.1.0'
+    defaultConfig {
+        applicationId "com.lecz.clubdelosvencedores"
+        minSdkVersion 14
+        targetSdkVersion 19
+        versionCode 4
+        versionName "1.3"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false // new version
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            debuggable false
+        }
+    }
+    productFlavors {
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile files('libs/svg-android-1.1.jar')
+    compile 'com.android.support:support-v4:21.0.3'
+    compile 'com.android.support:support-v13:21.0.3'
+    compile 'com.google.android.gms:play-services:4.2.42'
+    compile 'com.android.support:appcompat-v7:21.0.3'
+}
